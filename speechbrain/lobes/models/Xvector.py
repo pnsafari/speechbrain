@@ -96,7 +96,7 @@ class Xvector(torch.nn.Module):
         ---------
         x : torch.Tensor
         """
-
+    
         for layer in self.blocks:
             try:
                 x = layer(x, lengths=lens)
@@ -141,7 +141,7 @@ class Classifier(sb.nnet.containers.Sequential):
         out_neurons=1211,
     ):
         super().__init__(input_shape=input_shape)
-
+        
         self.append(activation(), layer_name="act")
         self.append(sb.nnet.normalization.BatchNorm1d, layer_name="norm")
 

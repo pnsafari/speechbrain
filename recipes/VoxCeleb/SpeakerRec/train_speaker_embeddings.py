@@ -36,7 +36,6 @@ class SpeakerBrain(sb.core.Brain):
         """
         batch = batch.to(self.device)
         wavs, lens = batch.sig
-
         if stage == sb.Stage.TRAIN:
 
             # Applying the augmentation pipeline
@@ -68,9 +67,9 @@ class SpeakerBrain(sb.core.Brain):
         # Feature extraction and normalization
         feats = self.modules.compute_features(wavs)
         feats = self.modules.mean_var_norm(feats, lens)
-
+        
         # Embeddings + speaker classifier
-        embeddings = self.modules.embedding_model(feats)
+        embeddings = self.modules.embedding_model(feats,lens)
         outputs = self.modules.classifier(embeddings)
 
         return outputs, lens
@@ -85,7 +84,7 @@ class SpeakerBrain(sb.core.Brain):
         # Concatenate labels (due to data augmentation)
         if stage == sb.Stage.TRAIN:
             spkid = torch.cat([spkid] * self.n_augment, dim=0)
-
+        
         loss = self.hparams.compute_cost(predictions, spkid, lens)
 
         if stage == sb.Stage.TRAIN and hasattr(
@@ -225,6 +224,7 @@ if __name__ == "__main__":
             "splits": ["train", "dev"],
             "split_ratio": [90, 10],
             "seg_dur": hparams["sentence_len"],
+            "random_segment": hparams["random_segment"],
         },
     )
 

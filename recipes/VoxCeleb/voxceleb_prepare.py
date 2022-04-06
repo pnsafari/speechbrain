@@ -361,7 +361,6 @@ def prepare_csv(seg_dur, wav_lst, csv_file, random_segment=False, amp_th=0):
         # Reading the signal (to retrieve duration in seconds)
         signal, fs = torchaudio.load(wav_file)
         signal = signal.squeeze(0)
-
         if random_segment:
             audio_duration = signal.shape[0] / SAMPLERATE
             start_sample = 0

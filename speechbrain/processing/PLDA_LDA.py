@@ -245,7 +245,6 @@ class StatObject_SB:
         isSqrInvSigma : bool
             True if the input Sigma matrix is the inverse of the square root of a covariance matrix.
         """
-
         if sigma.ndim == 1:
             self.center_stat1(mu)
             self.stat1 = self.stat1 / numpy.sqrt(sigma.astype(STAT_TYPE))
@@ -260,7 +259,6 @@ class StatObject_SB:
                 ind = eigen_values.real.argsort()[::-1]
                 eigen_values = eigen_values.real[ind]
                 eigen_vectors = eigen_vectors.real[:, ind]
-
                 sqr_inv_eval_sigma = 1 / numpy.sqrt(eigen_values.real)
                 sqr_inv_sigma = numpy.dot(
                     eigen_vectors, numpy.diag(sqr_inv_eval_sigma)
@@ -957,7 +955,6 @@ class PLDA:
 
             # Whiten statistics (with the new mean and Sigma)
             local_stat.whiten_stat1(self.mean, self.Sigma)
-
             # Whiten the EigenVoice matrix
             eigen_values, eigen_vectors = linalg.eigh(self.Sigma)
             ind = eigen_values.real.argsort()[::-1]

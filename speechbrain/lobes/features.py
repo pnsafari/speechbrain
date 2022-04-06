@@ -130,7 +130,7 @@ class Fbank(torch.nn.Module):
         ---------
         wav : tensor
             A batch of audio signals to transform to features.
-        """
+        """        
         STFT = self.compute_STFT(wav)
         mag = spectral_magnitude(STFT)
         fbanks = self.compute_fbanks(mag)

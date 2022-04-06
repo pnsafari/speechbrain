@@ -222,7 +222,7 @@ if __name__ == "__main__":
     params_file, run_opts, overrides = sb.core.parse_arguments(sys.argv[1:])
     with open(params_file) as fin:
         params = load_hyperpyyaml(fin, overrides)
-
+    
     # Download verification list (to exlude verification sentences from train)
     veri_file_path = os.path.join(
         params["save_folder"], os.path.basename(params["verification_file"])
@@ -260,7 +260,7 @@ if __name__ == "__main__":
     xv_file = os.path.join(
         params["save_folder"], "VoxCeleb1_train_embeddings_stat_obj.pkl"
     )
-
+    
     # We download the pretrained LM from HuggingFace (or elsewhere depending on
     # the path given in the YAML file). The tokenizer is loaded at the same time.
     run_on_main(params["pretrainer"].collect_files)
@@ -268,7 +268,7 @@ if __name__ == "__main__":
 
     params["embedding_model"].eval()
     params["embedding_model"].to(params["device"])
-
+    
     # Computing training embeddings (skip it of if already extracted)
     if not os.path.exists(xv_file):
         logger.info("Extracting embeddings from Training set..")
@@ -283,7 +283,6 @@ if __name__ == "__main__":
 
                 # For segset
                 segset = segset + snt_id
-
                 # Compute embeddings
                 emb = compute_embeddings(wav, lens)
                 xv = emb.squeeze(1).cpu().numpy()
